@@ -34,14 +34,25 @@ def merge_ranges(array):
 				ans.append((x,max(merge_list[x:i])))
 				x = 0
 	y=0
+	ansNew = []
+	yy = -1
 	for i in range(len(ans)):
-		y = ans[i][0]
-
-
-
-
-	print(ans)
-	return ans
+		if yy == -1:
+			yy = ans[i][0]
+		y = ans[i][1]
+		if (i+1) != len(ans):
+			if y < ans[i+1][1] and y >= ans[i+1][0]:
+				y = ans[i+1][1]
+			elif y >= ans[i+1][1]:
+				y = y
+			else:
+				ansNew.append((yy,y))
+				yy = -1
+		else:
+			ansNew.append((yy,y))
+	# print(ansNew)	
+	# print(ans)
+	return ansNew
 
 # Tests
 
@@ -65,6 +76,11 @@ class Test(unittest.TestCase):
    def test_meetings_stay_separate(self):
        actual = merge_ranges([(1, 3), (4, 8)])
        expected = [(1, 3), (4, 8)]
+       self.assertEqual(actual, expected)
+
+   def test_multiple_merged_meetings(self):
+       actual = merge_ranges([(1, 4), (2, 5), (5, 8)])
+       expected = [(1, 8)]
        self.assertEqual(actual, expected)
 
    def test_meetings_not_sorted(self):

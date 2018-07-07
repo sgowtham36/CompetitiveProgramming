@@ -21,6 +21,8 @@ def is_valid(code):
             return False
     if len(li) == 0:
         return True
+    else:
+        return False
 
 
 # Tests
